@@ -214,6 +214,10 @@ public class HashMap<K, V> implements IMap<K, V> {
             return put(new Pair<K, V>(key, value));
         }
 
+        private int hash(K key) {
+            return key == null ? 0 : key.hashCode();
+        }
+
         private V put(Pair<K, V> newPair) {
             V prev = null;
             int index = indexOf(newPair.key);
@@ -264,7 +268,7 @@ public class HashMap<K, V> implements IMap<K, V> {
         }
 
         private int indexOf(K key) {
-            int k = key.hashCode() % hashingKey;
+            int k = Math.abs(hash(key)) % hashingKey;
             if (k >= array.length) {
                 k -= k / array.length * array.length;
             }
